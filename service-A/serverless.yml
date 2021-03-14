@@ -1,0 +1,28 @@
+service:
+  name: service-A
+
+plugins:
+  - serverless-bundle
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: 'sa-east-1'
+  apiGateway:
+    restApiId:
+      'Fn::ImportValue': MyApiGateway-restApiId
+    restApiRootResourceId:
+      'Fn::ImportValue': MyApiGateway-rootResourceId
+  
+functions:
+  something:
+    handler: src/handlers/something.handler
+    events:
+      - http: GET service-a/something
+  xpto:
+    handler: src/handlers/xpto.handler
+    events:
+      - http: GET service-a/xpto

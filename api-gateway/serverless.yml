@@ -1,0 +1,31 @@
+service:
+  name: api-gateway
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: 'sa-east-1'
+
+resources:
+  Resources:
+    MyApiGW:
+      Type: AWS::ApiGateway::RestApi
+      Properties:
+        Name: MyApiGW
+
+  Outputs:
+    apiGatewayRestApiId:
+      Value:
+        Ref: MyApiGW
+      Export:
+        Name: MyApiGateway-restApiId
+
+    apiGatewayRestApiRootResourceId:
+      Value:
+        Fn::GetAtt:
+          - MyApiGW
+          - RootResourceId
+      Export:
+        Name: MyApiGateway-rootResourceId

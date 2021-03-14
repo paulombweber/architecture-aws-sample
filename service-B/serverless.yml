@@ -1,0 +1,24 @@
+service:
+  name: service-B
+
+plugins:
+  - serverless-bundle
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: 'sa-east-1'
+  apiGateway:
+    restApiId:
+      'Fn::ImportValue': MyApiGateway-restApiId
+    restApiRootResourceId:
+      'Fn::ImportValue': MyApiGateway-rootResourceId
+  
+functions:
+  hello:
+    handler: src/handlers/hello.handler
+    events:
+      - http: GET service-b/hello
