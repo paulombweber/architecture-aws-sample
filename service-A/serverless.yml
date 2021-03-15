@@ -15,7 +15,7 @@ provider:
     restApiId:
       'Fn::ImportValue': MyApiGateway-restApiId
     restApiRootResourceId:
-      'Fn::ImportValue': MyApiGateway-rootResourceId
+      'Fn::ImportValue': MyApiGateway-hcm-resource-id
   
 functions:
   something:

@@ -1,5 +1,5 @@
 service:
-  name: service-B
+  name: hcm
 
 plugins:
   - serverless-bundle
@@ -10,15 +10,25 @@ provider:
   runtime: nodejs12.x
   memorySize: 256
   stage: ${opt:stage, 'dev'}
-  region: 'sa-east-1'
+  region: sa-east-1
   apiGateway:
     restApiId:
       'Fn::ImportValue': MyApiGateway-restApiId
     restApiRootResourceId:
-      'Fn::ImportValue': MyApiGateway-hcm-resource-id
+      'Fn::ImportValue': MyApiGateway-rootResourceId
   
 functions:
   hello:
     handler: src/handlers/hello.handler
     events:
-      - http: GET service-b/hello
+      - http:
+          method: GET
+          path: /hcm
+
+resources:
+  Outputs:
+    apiGatewayRestApiRootResourceId:
+      Value:
+        Ref: ApiGatewayResourceHcm
+      Export:
+        Name: MyApiGateway-hcm-resource-id

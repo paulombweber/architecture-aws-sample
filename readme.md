@@ -1,11 +1,8 @@
-This is a sample of a serverless framework architecture based on micro services that run on the same API Gateway
+This is a serverless framework architecture based on micro services grouped in domains that run on the same API Gateway
 
-Pros:
-- Easy to build and put new services on
+- Easy to build and put new services and domains on
 - Every service will be isolated from the others, even if you mistakenly put the same base url it'll produce an error and not let you screw things up.
-
-Cons:
-- If you put any lambda on the api gateway micro service it'll create a new api gateway on AWS, so it'll have a differente url than the one exported( if you do discover how to fix this, PR to this repo please )
-
+- Every domain needs to have at least one function so that it creates a new resource on the api-gateway and it can be passed to the services below
+- If you don't need to group the services on domains, you can just remove that and import the gateway on the services directly
 
 I'm not sure how to use custom basePath property, it would make it even easier
