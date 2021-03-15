@@ -2,7 +2,6 @@ service:
   name: hcm
 
 plugins:
-  - serverless-bundle
   - serverless-pseudo-parameters
 
 provider:
@@ -17,15 +16,17 @@ provider:
     restApiRootResourceId:
       'Fn::ImportValue': MyApiGateway-rootResourceId
   
-functions:
-  hello:
-    handler: src/handlers/hello.handler
-    events:
-      - http:
-          method: GET
-          path: /hcm
+resources:  
+  Resources:
+    ApiGatewayResourceHcm: 
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        ParentId:
+          ${self:provider.apiGateway.restApiRootResourceId}
+        PathPart: hcm
+        RestApiId:
+          ${self:provider.apiGateway.restApiId}
 
-resources:
   Outputs:
     apiGatewayRestApiRootResourceId:
       Value:
